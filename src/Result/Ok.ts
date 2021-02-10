@@ -86,4 +86,8 @@ export const Ok = <T>(value: T): Ok<T> => ({
       return false;
     }
   },
+
+  toString() {
+    return `Ok(${JSON.stringify(value)})`;
+  },
 });

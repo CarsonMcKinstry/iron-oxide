@@ -20,6 +20,7 @@ export interface Option<T> {
   expect(msg: string): T;
   flatten(): Option<T>;
   eq(op: Option<T>): boolean;
+  toString(): string;
 }
 
 export const Option = {

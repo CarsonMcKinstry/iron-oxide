@@ -14,22 +14,22 @@ expect.extend({
     return received.eq(option)
       ? {
           pass: true,
-          message: () => "",
+          message: () => `Expected ${received} not to be ${option.toString()}`,
         }
       : {
           pass: false,
-          message: () => "",
+          message: () => `Expected ${received} to be ${option.toString()}`,
         };
   },
   toEqualResult(received: Result<any, any>, result: Result<any, any>) {
     return received.eq(result)
       ? {
           pass: true,
-          message: () => "",
+          message: () => `Expected ${received} not to be ${result.toString()}`,
         }
       : {
           pass: false,
-          message: () => "",
+          message: () => `Expected ${received} to be ${result.toString()}`,
         };
   },
 });

@@ -89,6 +89,10 @@ export const Some = <T>(value: T): Some<T> => ({
       return false;
     }
   },
+
+  toString() {
+    return `Some(${JSON.stringify(value)})`;
+  },
 });
 
 // export class _Some<T> extends Option<T> {

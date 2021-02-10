@@ -69,4 +69,8 @@ export const None = (): None => ({
   eq(op) {
     return op.isNone();
   },
+
+  toString() {
+    return "None()";
+  },
 });

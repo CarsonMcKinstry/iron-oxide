@@ -20,6 +20,7 @@ export interface Result<T, E> {
   expect(msg: string): T;
   expectErr(msg: string): E;
   eq(res: Result<T, E>): boolean;
+  toString(): string;
 }
 
 export const Result = {

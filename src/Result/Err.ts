@@ -87,4 +87,8 @@ export const Err = <E>(error: E): Err<E> => ({
       return false;
     }
   },
+
+  toString() {
+    return `Err(${JSON.stringify(error)})`;
+  },
 });
