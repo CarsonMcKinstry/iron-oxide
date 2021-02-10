@@ -56,4 +56,29 @@ describe("Result.Ok", () => {
   test("Result.mapErr", () => {
     expect(ok.mapErr((e) => e)).toEqual(Ok(1));
   });
+
+  test("Result.mapOr", () => {
+    expect(ok.mapOr(3, (n) => n + 1)).toEqual(2);
+  });
+
+  test("Result.mapOrElse", () => {
+    expect(
+      ok.mapOrElse(
+        () => 3,
+        (n) => n + 1
+      )
+    ).toEqual(2);
+  });
+
+  test("Result.unwrapErr", () => {
+    expect(() => ok.unwrapErr()).toThrow();
+  });
+
+  test("Result.expect", () => {
+    expect(ok.expect("")).toEqual(1);
+  });
+
+  test("Result.expectErr", () => {
+    expect(() => ok.expectErr("test")).toThrowError(new Error("test"));
+  });
 });

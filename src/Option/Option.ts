@@ -18,7 +18,6 @@ export abstract class Option<T> {
   abstract filter(predicate: (a: T) => boolean): Option<T>;
   abstract zip<U>(other: Option<U>): Option<[T, U]>;
   abstract expect(msg: string): T;
-
   abstract flatten(): Option<T>;
 
   static isOption<T>(value: any): value is Option<T> {

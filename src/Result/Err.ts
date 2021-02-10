@@ -28,6 +28,14 @@ class _Err<T, E> extends Result<T, E> {
     return Err(proj(this.error));
   }
 
+  mapOr<U>(def: U) {
+    return def;
+  }
+
+  mapOrElse<U>(def: () => U) {
+    return def();
+  }
+
   ok() {
     return None();
   }
@@ -57,11 +65,23 @@ class _Err<T, E> extends Result<T, E> {
     throw new Error("Called 'Result.unwrap' on an 'Err' value");
   }
 
+  unwrapErr() {
+    return this.error;
+  }
+
   unwrapOr<T>(optb: T) {
     return optb;
   }
 
   unwrapOrElse<T>(op: (err: E) => T) {
     return op(this.error);
+  }
+
+  expectErr() {
+    return this.error;
+  }
+
+  expect(msg: string): never {
+    throw new Error(msg);
   }
 }

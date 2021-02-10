@@ -84,6 +84,7 @@ describe("Option.Some", () => {
 
   test("Option.zip", () => {
     expect(some.zip(Some(2))).toEqual(Some([1, 2]));
+    expect(some.zip(None())).toEqual(None());
   });
 
   test("Option.expect", () => {
@@ -91,12 +92,14 @@ describe("Option.Some", () => {
   });
 
   test("Option.flatten", () => {
-    let some: Option<Option<number>> = Some(Some(1));
+    expect(() => some.flatten()).toThrow();
 
-    expect(some.flatten()).toEqual(Some(1));
+    let nestedSome: Option<Option<number>> = Some(some);
 
-    some = Some(None());
+    expect(nestedSome.flatten()).toEqual(some);
 
-    expect(some.flatten()).toEqual(None());
+    nestedSome = Some(None());
+
+    expect(nestedSome.flatten()).toEqual(None());
   });
 });

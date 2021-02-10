@@ -36,6 +36,14 @@ class _Ok<T, E> extends Result<T, E> {
     return Ok(this.value);
   }
 
+  mapOr<U>(_: U, proj: (a: T) => U) {
+    return proj(this.value);
+  }
+
+  mapOrElse<U>(_: () => U, proj: (a: T) => U) {
+    return proj(this.value);
+  }
+
   and<U>(res: Result<U, E>) {
     return res;
   }
@@ -62,5 +70,19 @@ class _Ok<T, E> extends Result<T, E> {
 
   unwrapOrElse() {
     return this.value;
+  }
+
+  unwrapErr(): never {
+    throw new Error(
+      `Called 'Result.unwrapErr' on an 'Ok' value: ${this.value}`
+    );
+  }
+
+  expect() {
+    return this.value;
+  }
+
+  expectErr(msg: string): never {
+    throw new Error(msg);
   }
 }

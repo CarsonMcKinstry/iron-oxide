@@ -56,4 +56,29 @@ describe("Result: Err", () => {
   test("Result.mapErr", () => {
     expect(err.mapErr((err) => err + "...")).toEqual(Err("Nope..."));
   });
+
+  test("Result.mapOr", () => {
+    expect(err.mapOr(2, (e) => e)).toEqual(2);
+  });
+
+  test("Result.mapOrElse", () => {
+    expect(
+      err.mapOrElse(
+        () => 2,
+        (e) => e
+      )
+    ).toEqual(2);
+  });
+
+  test("Result.unwrapErr", () => {
+    expect(err.unwrapErr()).toEqual("Nope");
+  });
+
+  test("Result.expectErr", () => {
+    expect(err.expectErr("")).toEqual("Nope");
+  });
+
+  test("Result.expect", () => {
+    expect(() => err.expect("test")).toThrowError(new Error("test"));
+  });
 });
