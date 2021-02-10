@@ -6,6 +6,10 @@ import { Err } from "../../Result";
 describe("Option.None", () => {
   const none: Option<number> = None();
 
+  test("Option.eq", () => {
+    expect(none.eq(None())).toBe(true);
+    expect(none.eq(Some(1))).toBe(false);
+  });
   test("Option.isSome", () => {
     expect(none.isSome()).toBe(false);
   });
@@ -27,7 +31,7 @@ describe("Option.None", () => {
   });
 
   test("Option.map", () => {
-    expect(none.map((n) => n + 1)).toEqual(None());
+    expect(none.map((n) => n + 1)).toEqualOption(None());
   });
 
   test("Option.mapOr", () => {
@@ -44,19 +48,19 @@ describe("Option.None", () => {
   });
 
   test("Option.and", () => {
-    expect(none.and(Some(2))).toEqual(None());
+    expect(none.and(Some(2))).toEqualOption(None());
   });
 
   test("Option.andThen", () => {
-    expect(none.andThen((value) => Some(2))).toEqual(None());
+    expect(none.andThen((value) => Some(2))).toEqualOption(None());
   });
 
   test("Option.or", () => {
-    expect(none.or(Some(2))).toEqual(Some(2));
+    expect(none.or(Some(2))).toEqualOption(Some(2));
   });
 
   test("Option.orElse", () => {
-    expect(none.orElse(() => Some(2))).toEqual(Some(2));
+    expect(none.orElse(() => Some(2))).toEqualOption(Some(2));
   });
 
   test("None should be chainable", () => {
@@ -65,26 +69,26 @@ describe("Option.None", () => {
         .map((n) => n + 1)
         .map((n) => n + 1)
         .map((n) => n + 1)
-    ).toEqual(None());
+    ).toEqualOption(None());
   });
 
   test("Option.okOr", () => {
     const error = new Error("Missing Value");
-    expect(none.okOr(error)).toEqual(Err(error));
+    expect(none.okOr(error)).toEqualResult(Err(error));
   });
 
   test("Option.okOrElse", () => {
     const error = new Error("Missing Value");
-    expect(none.okOrElse(() => error)).toEqual(Err(error));
+    expect(none.okOrElse(() => error)).toEqualResult(Err(error));
   });
 
   test("Option.filter", () => {
-    expect(none.filter((n) => n % 2 === 0)).toEqual(None());
-    expect(none.filter((n) => n % 2 !== 0)).toEqual(None());
+    expect(none.filter((n) => n % 2 === 0)).toEqualOption(None());
+    expect(none.filter((n) => n % 2 !== 0)).toEqualOption(None());
   });
 
   test("Option.zip", () => {
-    expect(none.zip(Some(2))).toEqual(None());
+    expect(none.zip(Some(2))).toEqualOption(None());
   });
 
   test("Option.expect", () => {
@@ -93,6 +97,6 @@ describe("Option.None", () => {
     );
   });
   test("Option.flatten", () => {
-    expect(none.flatten()).toEqual(None());
+    expect(none.flatten()).toEqualOption(None());
   });
 });

@@ -1,2 +1,2 @@
 export { Option, None, Some } from "./src/Option";
-export { Result, Ok, Err } from "./Result";
+export { Result, Ok, Err } from "./src/Result";

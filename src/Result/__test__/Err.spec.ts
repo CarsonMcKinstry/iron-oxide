@@ -5,7 +5,18 @@ import { None, Some } from "../../Option";
 
 describe("Result: Err", () => {
   const err: Result<number, string> = Err("Nope");
+  test("Result.eq", () => {
+    const scalar: Result<string, number> = Err(1);
+    const arr: Result<string, number[]> = Err([1]);
+    const obj: Result<string, { foo: number }> = Err({ foo: 1 });
+    const complex: Result<string, { foo: number }[]> = Err([{ foo: 1 }]);
 
+    expect(scalar.eq(Err(1))).toBe(true);
+    expect(arr.eq(Err([1]))).toBe(true);
+    expect(obj.eq(Err({ foo: 1 }))).toBe(true);
+    expect(complex.eq(Err([{ foo: 1 }]))).toBe(true);
+    expect(scalar.eq(Ok("nope"))).toBe(false);
+  });
   test("Result.isOk", () => {
     expect(err.isOk()).toBe(false);
   });
@@ -15,30 +26,30 @@ describe("Result: Err", () => {
   });
 
   test("Result.ok", () => {
-    expect(err.ok()).toEqual(None());
+    expect(err.ok()).toEqualOption(None());
   });
 
   test("Result.err", () => {
-    expect(err.err()).toEqual(Some("Nope"));
+    expect(err.err()).toEqualOption(Some("Nope"));
   });
 
   test("Result.map", () => {
-    expect(err.map((n) => n + 1)).toEqual(Err("Nope"));
+    expect(err.map((n) => n + 1)).toEqualResult(Err("Nope"));
   });
 
   test("Result.and", () => {
-    expect(err.and(Ok(2))).toEqual(Err("Nope"));
+    expect(err.and(Ok(2))).toEqualResult(Err("Nope"));
   });
 
   test("Result.andThen", () => {
-    expect(err.andThen((n) => Ok(n + 1))).toEqual(Err("Nope"));
+    expect(err.andThen((n) => Ok(n + 1))).toEqualResult(Err("Nope"));
   });
 
   test("Result.or", () => {
-    expect(err.or(Ok(2))).toEqual(Ok(2));
+    expect(err.or(Ok(2))).toEqualResult(Ok(2));
   });
   test("Result.orElse", () => {
-    expect(err.orElse(() => Ok(2))).toEqual(Ok(2));
+    expect(err.orElse(() => Ok(2))).toEqualResult(Ok(2));
   });
 
   test("Result.unwrap", () => {
@@ -54,7 +65,7 @@ describe("Result: Err", () => {
   });
 
   test("Result.mapErr", () => {
-    expect(err.mapErr((err) => err + "...")).toEqual(Err("Nope..."));
+    expect(err.mapErr((err) => err + "...")).toEqualResult(Err("Nope..."));
   });
 
   test("Result.mapOr", () => {

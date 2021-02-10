@@ -1,10 +1,23 @@
 import { Some, None } from "../../Option";
 import { Ok } from "../Ok";
+import { Err } from "../Err";
 import { Result } from "../Result";
 
 describe("Result.Ok", () => {
   const ok: Result<number, string> = Ok(1);
 
+  test("Result.eq", () => {
+    const scalar: Result<number, string> = Ok(1);
+    const arr: Result<number[], string> = Ok([1]);
+    const obj: Result<{ foo: number }, string> = Ok({ foo: 1 });
+    const complex: Result<{ foo: number }[], string> = Ok([{ foo: 1 }]);
+
+    expect(scalar.eq(Ok(1))).toBe(true);
+    expect(arr.eq(Ok([1]))).toBe(true);
+    expect(obj.eq(Ok({ foo: 1 }))).toBe(true);
+    expect(complex.eq(Ok([{ foo: 1 }]))).toBe(true);
+    expect(scalar.eq(Err("nope"))).toBe(false);
+  });
   test("Result.isOk", () => {
     expect(ok.isOk()).toBe(true);
   });
@@ -14,31 +27,31 @@ describe("Result.Ok", () => {
   });
 
   test("Result.ok", () => {
-    expect(ok.ok()).toEqual(Some(1));
+    expect(ok.ok()).toEqualOption(Some(1));
   });
 
   test("Result.err", () => {
-    expect(ok.err()).toEqual(None());
+    expect(ok.err()).toEqualOption(None());
   });
 
   test("Result.map", () => {
-    expect(ok.map((n) => n + 1)).toEqual(Ok(2));
+    expect(ok.map((n) => n + 1)).toEqualResult(Ok(2));
   });
 
   test("Result.and", () => {
-    expect(ok.and(Ok(2))).toEqual(Ok(2));
+    expect(ok.and(Ok(2))).toEqualResult(Ok(2));
   });
 
   test("Result.andThen", () => {
-    expect(ok.andThen((n) => Ok(n + 1))).toEqual(Ok(2));
+    expect(ok.andThen((n) => Ok(n + 1))).toEqualResult(Ok(2));
   });
 
   test("Result.or", () => {
-    expect(ok.or(Ok(2))).toEqual(Ok(1));
+    expect(ok.or(Ok(2))).toEqualResult(Ok(1));
   });
 
   test("Result.orElse", () => {
-    expect(ok.orElse(() => Ok(2))).toEqual(Ok(1));
+    expect(ok.orElse(() => Ok(2))).toEqualResult(Ok(1));
   });
 
   test("Result.unwrap", () => {
@@ -54,7 +67,7 @@ describe("Result.Ok", () => {
   });
 
   test("Result.mapErr", () => {
-    expect(ok.mapErr((e) => e)).toEqual(Ok(1));
+    expect(ok.mapErr((e) => e)).toEqualResult(Ok(1));
   });
 
   test("Result.mapOr", () => {

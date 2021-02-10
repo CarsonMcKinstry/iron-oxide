@@ -6,6 +6,19 @@ import { Ok } from "../../Result";
 describe("Option.Some", () => {
   const some: Option<number> = Some(1);
 
+  test("Option.eq", () => {
+    const scalar: Option<number> = Some(1);
+    const arr: Option<number[]> = Some([1]);
+    const obj: Option<{ foo: number }> = Some({ foo: 1 });
+    const complex: Option<{ foo: number }[]> = Some([{ foo: 1 }]);
+
+    expect(scalar.eq(Some(1))).toBe(true);
+    expect(arr.eq(Some([1]))).toBe(true);
+    expect(obj.eq(Some({ foo: 1 }))).toBe(true);
+    expect(complex.eq(Some([{ foo: 1 }]))).toBe(true);
+    expect(scalar.eq(None())).toBe(false);
+  });
+
   test("Option.isSome", () => {
     expect(some.isSome()).toBe(true);
   });
@@ -27,7 +40,7 @@ describe("Option.Some", () => {
   });
 
   test("Option.map", () => {
-    expect(some.map((n) => n + 1)).toEqual(Some(2));
+    expect(some.map((n) => n + 1)).toEqualOption(Some(2));
   });
 
   test("Option.mapOr", () => {
@@ -44,19 +57,19 @@ describe("Option.Some", () => {
   });
 
   test("Option.and", () => {
-    expect(some.and(Some(2))).toEqual(Some(2));
+    expect(some.and(Some(2))).toEqualOption(Some(2));
   });
 
   test("Option.andThen", () => {
-    expect(some.andThen((value) => Some(value + 1))).toEqual(Some(2));
+    expect(some.andThen((value) => Some(value + 1))).toEqualOption(Some(2));
   });
 
   test("Option.or", () => {
-    expect(some.or(Some(2))).toEqual(Some(1));
+    expect(some.or(Some(2))).toEqualOption(Some(1));
   });
 
   test("Option.orElse", () => {
-    expect(some.orElse(() => Some(2))).toEqual(Some(1));
+    expect(some.orElse(() => Some(2))).toEqualOption(Some(1));
   });
 
   test("Some should be chainable", () => {
@@ -70,21 +83,23 @@ describe("Option.Some", () => {
   });
 
   test("Option.okOr", () => {
-    expect(some.okOr(new Error("missing value"))).toEqual(Ok(1));
+    expect(some.okOr(new Error("missing value"))).toEqualResult(Ok(1));
   });
 
   test("Option.okOrElse", () => {
-    expect(some.okOrElse(() => new Error("missing value"))).toEqual(Ok(1));
+    expect(some.okOrElse(() => new Error("missing value"))).toEqualResult(
+      Ok(1)
+    );
   });
 
   test("Option.filter", () => {
-    expect(some.filter((n) => n % 2 === 0)).toEqual(None());
-    expect(some.filter((n) => n % 2 !== 0)).toEqual(Some(1));
+    expect(some.filter((n) => n % 2 === 0)).toEqualOption(None());
+    expect(some.filter((n) => n % 2 !== 0)).toEqualOption(Some(1));
   });
 
   test("Option.zip", () => {
-    expect(some.zip(Some(2))).toEqual(Some([1, 2]));
-    expect(some.zip(None())).toEqual(None());
+    expect(some.zip(Some(2))).toEqualOption(Some([1, 2]));
+    expect(some.zip(None())).toEqualOption(None());
   });
 
   test("Option.expect", () => {
@@ -96,10 +111,10 @@ describe("Option.Some", () => {
 
     let nestedSome: Option<Option<number>> = Some(some);
 
-    expect(nestedSome.flatten()).toEqual(some);
+    expect(nestedSome.flatten()).toEqualOption(some);
 
     nestedSome = Some(None());
 
-    expect(nestedSome.flatten()).toEqual(None());
+    expect(nestedSome.flatten()).toEqualOption(None());
   });
 });

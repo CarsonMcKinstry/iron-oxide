@@ -1,87 +1,90 @@
+import { isEqual } from "lodash";
 import { Some, None } from "../Option";
 import { Result } from "./Result";
 
-export type Err<E> = _Err<never, E>;
+export type Err<E> = Result<never, E>;
 
-export function Err<E>(error: E): Err<E> {
-  return new _Err(error);
-}
-
-class _Err<T, E> extends Result<T, E> {
-  constructor(private error: E) {
-    super();
-  }
-
+export const Err = <E>(error: E): Err<E> => ({
   isOk() {
     return false;
-  }
+  },
 
   isErr() {
     return true;
-  }
+  },
 
   map() {
-    return Err(this.error);
-  }
+    return Err(error);
+  },
 
   mapErr<F>(proj: (err: E) => F) {
-    return Err(proj(this.error));
-  }
+    return Err(proj(error));
+  },
 
   mapOr<U>(def: U) {
     return def;
-  }
+  },
 
   mapOrElse<U>(def: () => U) {
     return def();
-  }
+  },
 
   ok() {
     return None();
-  }
+  },
 
   err() {
-    return Some(this.error);
-  }
+    return Some(error);
+  },
 
   and() {
-    return Err(this.error);
-  }
+    return Err(error);
+  },
 
   andThen() {
-    return Err(this.error);
-  }
+    return Err(error);
+  },
 
   or<T>(res: Result<T, E>) {
     return res;
-  }
+  },
 
-  orElse<U>(op: (a: E) => Result<T, U>) {
-    return op(this.error);
-  }
+  orElse<T, U>(op: (a: E) => Result<T, U>) {
+    return op(error);
+  },
 
   unwrap(): never {
-    console.error(this.error);
+    console.error(error);
     throw new Error("Called 'Result.unwrap' on an 'Err' value");
-  }
+  },
 
   unwrapErr() {
-    return this.error;
-  }
+    return error;
+  },
 
   unwrapOr<T>(optb: T) {
     return optb;
-  }
+  },
 
   unwrapOrElse<T>(op: (err: E) => T) {
-    return op(this.error);
-  }
+    return op(error);
+  },
 
   expectErr() {
-    return this.error;
-  }
+    return error;
+  },
 
   expect(msg: string): never {
     throw new Error(msg);
-  }
-}
+  },
+
+  eq(res) {
+    try {
+      const err = res.unwrapErr();
+
+      return isEqual(err, error);
+    } catch (_) {
+      return false;
+    }
+  },
+});

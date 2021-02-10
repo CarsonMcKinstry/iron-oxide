@@ -1,59 +1,59 @@
+import { isEqual } from "lodash";
 import { Ok } from "../Result";
 import { Option } from "./Option";
 import { None } from "./None";
 
-export class _Some<T> extends Option<T> {
-  constructor(private value: T) {
-    super();
-  }
+export type Some<T> = Option<T>;
+
+export const Some = <T>(value: T): Some<T> => ({
   isSome() {
     return true;
-  }
+  },
   isNone() {
     return false;
-  }
+  },
   unwrap() {
-    return this.value;
-  }
+    return value;
+  },
   unwrapOr(_: T) {
-    return this.value;
-  }
+    return value;
+  },
   unwrapOrElse(_: () => T) {
-    return this.value;
-  }
+    return value;
+  },
   map<U>(proj: (a: T) => U) {
-    return Some(proj(this.value));
-  }
+    return Some(proj(value));
+  },
   mapOr<U>(_: U, proj: (a: T) => U) {
-    return proj(this.value);
-  }
+    return proj(value);
+  },
   mapOrElse<U>(_: () => U, proj: (a: T) => U) {
-    return proj(this.value);
-  }
+    return proj(value);
+  },
   and<U>(optb: Option<U>) {
     return optb;
-  }
+  },
   andThen<U>(next: (a: T) => Option<U>) {
-    return next(this.value);
-  }
+    return next(value);
+  },
   or(_: Option<T>) {
-    return Some(this.value);
-  }
+    return Some(value);
+  },
   orElse(_: () => Option<T>) {
-    return Some(this.value);
-  }
+    return Some(value);
+  },
 
   okOr() {
-    return Ok(this.value);
-  }
+    return Ok(value);
+  },
 
   okOrElse() {
-    return Ok(this.value);
-  }
+    return Ok(value);
+  },
 
   filter(predicate: (value: T) => boolean) {
-    return predicate(this.value) ? Some(this.value) : None();
-  }
+    return predicate(value) ? Some(value) : None();
+  },
 
   zip<U>(other: Option<U>): Option<[T, U]> {
     if (other.isNone()) {
@@ -64,25 +64,42 @@ export class _Some<T> extends Option<T> {
     const u = other.unwrap();
 
     return Some([t, u]);
-  }
+  },
 
   expect() {
-    return this.value;
-  }
+    return value;
+  },
 
   flatten() {
-    if (Option.isOption<T>(this.value)) {
-      return this.value;
+    if (Option.isOption<T>(value)) {
+      return value;
     }
 
     throw new Error(
       "Flatten can only be used on values of type `Option<Option<T>>`"
     );
-  }
-}
+  },
 
-export type Some<T> = _Some<T>;
+  eq(op) {
+    try {
+      const v = op.unwrap();
 
-export function Some<T>(value: T): Some<T> {
-  return new _Some(value);
-}
+      return isEqual(v, value);
+    } catch (_) {
+      return false;
+    }
+  },
+});
+
+// export class _Some<T> extends Option<T> {
+//   constructor(private value: T) {
+//     super();
+//   }
+
+// }
+
+// export type Some<T> = _Some<T>;
+
+// export function Some<T>(value: T): Some<T> {
+//   return new _Some(value);
+// }

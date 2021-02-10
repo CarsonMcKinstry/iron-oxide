@@ -1,88 +1,89 @@
+import { isEqual } from "lodash";
 import { Some, None } from "../Option";
 import { Result } from "./Result";
 
-export type Ok<T> = _Ok<T, never>;
+export type Ok<T> = Result<T, never>;
 
-export function Ok<T>(value: T): Ok<T> {
-  return new _Ok(value);
-}
-
-class _Ok<T, E> extends Result<T, E> {
-  constructor(private value: T) {
-    super();
-  }
-
+export const Ok = <T>(value: T): Ok<T> => ({
   isOk() {
     return true;
-  }
+  },
 
   isErr() {
     return false;
-  }
+  },
 
   ok() {
-    return Some(this.value);
-  }
+    return Some(value);
+  },
 
   err() {
     return None();
-  }
+  },
 
   map<U>(proj: (a: T) => U) {
-    return Ok<U>(proj(this.value));
-  }
+    return Ok<U>(proj(value));
+  },
 
   mapErr() {
-    return Ok(this.value);
-  }
+    return Ok(value);
+  },
 
   mapOr<U>(_: U, proj: (a: T) => U) {
-    return proj(this.value);
-  }
+    return proj(value);
+  },
 
   mapOrElse<U>(_: () => U, proj: (a: T) => U) {
-    return proj(this.value);
-  }
+    return proj(value);
+  },
 
-  and<U>(res: Result<U, E>) {
+  and<U, E>(res: Result<U, E>) {
     return res;
-  }
+  },
 
-  andThen<U>(op: (a: T) => Result<U, E>) {
-    return op(this.value);
-  }
+  andThen<U, E>(op: (a: T) => Result<U, E>) {
+    return op(value);
+  },
 
   or() {
-    return Ok(this.value);
-  }
+    return Ok(value);
+  },
 
   orElse() {
-    return Ok(this.value);
-  }
+    return Ok(value);
+  },
 
   unwrap() {
-    return this.value;
-  }
+    return value;
+  },
 
   unwrapOr() {
-    return this.value;
-  }
+    return value;
+  },
 
   unwrapOrElse() {
-    return this.value;
-  }
+    return value;
+  },
 
   unwrapErr(): never {
-    throw new Error(
-      `Called 'Result.unwrapErr' on an 'Ok' value: ${this.value}`
-    );
-  }
+    throw new Error(`Called 'Result.unwrapErr' on an 'Ok' value: ${value}`);
+  },
 
   expect() {
-    return this.value;
-  }
+    return value;
+  },
 
   expectErr(msg: string): never {
     throw new Error(msg);
-  }
-}
+  },
+
+  eq(res) {
+    try {
+      const v = res.unwrap();
+
+      return isEqual(v, value);
+    } catch (_) {
+      return false;
+    }
+  },
+});
