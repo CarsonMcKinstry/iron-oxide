@@ -1,4 +1,6 @@
 import { Option } from "../Option";
+import { Err } from "./Err";
+import { Ok } from "./Ok";
 
 export interface Result<T, E> {
   map<U>(proj: (a: T) => U): Result<U, E>;
@@ -21,6 +23,16 @@ export interface Result<T, E> {
   expectErr(msg: string): E;
   eq(res: Result<T, E>): boolean;
   toString(): string;
+}
+
+function from<T>(value: T): Result<T, never>;
+function from<T, E>(value: null, error: E): Result<never, E>;
+function from(value: any, error?: any): Result<any, any> {
+  if (value === null && error) {
+    return Err(error);
+  }
+
+  return Ok(value);
 }
 
 export const Result = {
@@ -47,4 +59,5 @@ export const Result = {
       "eq",
     ].every((prop) => value.hasOwnProperty(prop));
   },
+  from,
 };

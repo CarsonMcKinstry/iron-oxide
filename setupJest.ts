@@ -1,5 +1,7 @@
 import { Option, Result } from ".";
 
+console.error = jest.fn();
+
 declare global {
   namespace jest {
     interface Matchers<R> {
