@@ -1,3 +1,3 @@
-# <Insert Fun Name Here>
+# iron-oxide
 
 ## Rust style exception handling in TypeScript
