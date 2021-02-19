@@ -49,3 +49,20 @@ function parseInt(n: string, radix: number = 10): Result<number, string> {
     return Ok(value);
 }
 ```
+
+## Match
+
+A `match` statement is like a switch statement on steroids. It can be used similarly to switch, but works with more than just primitive values. Namely, you can hand it a primitive value, an object, an array, or a function which returns a boolean.
+
+```typescript
+
+import { match } from 'iron-oxide';
+
+function isEvenOrOdd(n: number) {
+    return match (n, [
+        [0, () => 'neitherEvenNorOdd'],
+        [x => x % 2 === 0, () => 'even'],
+        [x => x % 2 !== 0, () => 'odd']
+    ]);
+}
+```
