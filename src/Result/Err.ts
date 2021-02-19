@@ -78,7 +78,7 @@ export const Err = <E>(error: E): Err<E> => ({
     throw new Error(msg);
   },
 
-  eq(res) {
+  is(res) {
     try {
       const err = res.unwrapErr();
 

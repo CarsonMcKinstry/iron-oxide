@@ -66,7 +66,7 @@ export const None = (): None => ({
     return None();
   },
 
-  eq(op) {
+  is(op) {
     return op.isNone();
   },
 

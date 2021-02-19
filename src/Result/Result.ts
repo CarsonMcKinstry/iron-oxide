@@ -21,7 +21,7 @@ export interface Result<T, E> {
   unwrapOrElse(op: (err: E) => T): T;
   expect(msg: string): T;
   expectErr(msg: string): E;
-  eq(res: Result<T, E>): boolean;
+  is(res: Result<T, E>): boolean;
   toString(): string;
 }
 

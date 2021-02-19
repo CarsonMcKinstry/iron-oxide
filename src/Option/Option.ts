@@ -21,7 +21,7 @@ export interface Option<T> {
   zip<U>(other: Option<U>): Option<[T, U]>;
   expect(msg: string): T;
   flatten(): Option<T>;
-  eq(op: Option<T>): boolean;
+  is(op: Option<T>): boolean;
   toString(): string;
 }
 

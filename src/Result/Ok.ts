@@ -77,7 +77,7 @@ export const Ok = <T>(value: T): Ok<T> => ({
     throw new Error(msg);
   },
 
-  eq(res) {
+  is(res) {
     try {
       const v = res.unwrap();
 

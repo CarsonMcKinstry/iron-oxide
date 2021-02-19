@@ -80,7 +80,7 @@ export const Some = <T>(value: T): Some<T> => ({
     );
   },
 
-  eq(op) {
+  is(op) {
     try {
       const v = op.unwrap();
 

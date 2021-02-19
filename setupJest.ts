@@ -13,7 +13,7 @@ declare global {
 
 expect.extend({
   toEqualOption(received: Option<any>, option: Option<any>) {
-    return received.eq(option)
+    return received.is(option)
       ? {
           pass: true,
           message: () => `Expected ${received} not to be ${option.toString()}`,
@@ -24,7 +24,7 @@ expect.extend({
         };
   },
   toEqualResult(received: Result<any, any>, result: Result<any, any>) {
-    return received.eq(result)
+    return received.is(result)
       ? {
           pass: true,
           message: () => `Expected ${received} not to be ${result.toString()}`,
