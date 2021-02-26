@@ -55,7 +55,7 @@ export const Option = {
       "filter",
       "zip",
       "expect",
-      "eq",
+      "is",
     ].every((prop) => value.hasOwnProperty(prop));
   },
   from,

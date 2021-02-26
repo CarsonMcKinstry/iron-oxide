@@ -9,7 +9,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "prebuild": "rimraf ./lib"
+    "prebuild": "rimraf ./lib",
+    "prepublish": "yarn test && yarn build"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",

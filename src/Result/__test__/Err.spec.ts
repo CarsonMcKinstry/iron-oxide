@@ -5,17 +5,17 @@ import { None, Some } from "../../Option";
 
 describe("Result: Err", () => {
   const err: Result<number, string> = Err("Nope");
-  test("Result.eq", () => {
+  test("Result.is", () => {
     const scalar: Result<string, number> = Err(1);
     const arr: Result<string, number[]> = Err([1]);
     const obj: Result<string, { foo: number }> = Err({ foo: 1 });
     const complex: Result<string, { foo: number }[]> = Err([{ foo: 1 }]);
 
-    expect(scalar.eq(Err(1))).toBe(true);
-    expect(arr.eq(Err([1]))).toBe(true);
-    expect(obj.eq(Err({ foo: 1 }))).toBe(true);
-    expect(complex.eq(Err([{ foo: 1 }]))).toBe(true);
-    expect(scalar.eq(Ok("nope"))).toBe(false);
+    expect(scalar.is(Err(1))).toBe(true);
+    expect(arr.is(Err([1]))).toBe(true);
+    expect(obj.is(Err({ foo: 1 }))).toBe(true);
+    expect(complex.is(Err([{ foo: 1 }]))).toBe(true);
+    expect(scalar.is(Ok("nope"))).toBe(false);
   });
   test("Result.isOk", () => {
     expect(err.isOk()).toBe(false);

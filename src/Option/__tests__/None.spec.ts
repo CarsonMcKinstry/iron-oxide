@@ -6,9 +6,9 @@ import { Err } from "../../Result";
 describe("Option.None", () => {
   const none: Option<number> = None();
 
-  test("Option.eq", () => {
-    expect(none.eq(None())).toBe(true);
-    expect(none.eq(Some(1))).toBe(false);
+  test("Option.is", () => {
+    expect(none.is(None())).toBe(true);
+    expect(none.is(Some(1))).toBe(false);
   });
   test("Option.isSome", () => {
     expect(none.isSome()).toBe(false);

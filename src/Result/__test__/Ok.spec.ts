@@ -6,17 +6,17 @@ import { Result } from "../Result";
 describe("Result.Ok", () => {
   const ok: Result<number, string> = Ok(1);
 
-  test("Result.eq", () => {
+  test("Result.is", () => {
     const scalar: Result<number, string> = Ok(1);
     const arr: Result<number[], string> = Ok([1]);
     const obj: Result<{ foo: number }, string> = Ok({ foo: 1 });
     const complex: Result<{ foo: number }[], string> = Ok([{ foo: 1 }]);
 
-    expect(scalar.eq(Ok(1))).toBe(true);
-    expect(arr.eq(Ok([1]))).toBe(true);
-    expect(obj.eq(Ok({ foo: 1 }))).toBe(true);
-    expect(complex.eq(Ok([{ foo: 1 }]))).toBe(true);
-    expect(scalar.eq(Err("nope"))).toBe(false);
+    expect(scalar.is(Ok(1))).toBe(true);
+    expect(arr.is(Ok([1]))).toBe(true);
+    expect(obj.is(Ok({ foo: 1 }))).toBe(true);
+    expect(complex.is(Ok([{ foo: 1 }]))).toBe(true);
+    expect(scalar.is(Err("nope"))).toBe(false);
   });
   test("Result.isOk", () => {
     expect(ok.isOk()).toBe(true);

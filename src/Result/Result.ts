@@ -56,7 +56,7 @@ export const Result = {
       "unwrapOrElse",
       "expect",
       "expectErr",
-      "eq",
+      "is",
     ].every((prop) => value.hasOwnProperty(prop));
   },
   from,
