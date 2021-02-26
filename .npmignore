@@ -1,6 +1,0 @@
-./src/**/*.ts
-index.ts
-setupJest
-jest.config.jest
-tsconfig.json
-yarn-error.log
