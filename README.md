@@ -16,13 +16,13 @@ Example:
 import { Option, None, Some } from 'iron-oxide';
 
 function find<T>(array: T[], predicate: (el: T) => boolean): Option<T> {
-    const value = array.find(predicate);
-
-    if (value === undefined) {
-        return None();
+    for (const el of array) {
+        if (predicate(el)) {
+            return Some(el);
+        }
     }
 
-    return Some(value);
+    return None();
 }
 ```
 

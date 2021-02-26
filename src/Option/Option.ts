@@ -25,7 +25,7 @@ export interface Option<T> {
   toString(): string;
 }
 
-function from<T>(value: T): Option<T>;
+function from<T>(value?: T): Option<T>;
 function from(value?: null): Option<never>;
 function from(value: any): Option<any> {
   if (value === undefined || value === null) {
