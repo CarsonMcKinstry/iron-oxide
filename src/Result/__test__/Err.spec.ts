@@ -92,4 +92,8 @@ describe("Result: Err", () => {
   test("Result.expect", () => {
     expect(() => err.expect("test")).toThrowError(new Error("test"));
   });
+
+  test("Result.toString", () => {
+    expect(err.toString()).toEqual('Err("Nope")');
+  });
 });

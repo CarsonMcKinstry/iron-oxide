@@ -99,4 +99,8 @@ describe("Option.None", () => {
   test("Option.flatten", () => {
     expect(none.flatten()).toEqualOption(None());
   });
+
+  test("Option.toString", () => {
+    expect(none.toString()).toEqual("None()");
+  });
 });

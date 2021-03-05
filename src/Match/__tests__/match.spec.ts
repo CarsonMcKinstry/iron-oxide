@@ -1,6 +1,7 @@
 import { Option, Some, None } from "../../Option";
 import { Result, Ok, Err } from "../../Result";
 import { match } from "../match";
+import { isSome, isNone, isErr, isOk } from "../utils";
 
 const identity = <T>(i: T): T => i;
 
@@ -57,6 +58,8 @@ describe("Match.match", () => {
   it("should work with Options", () => {
     expect(match(Some(1), [[Some(1).is, identity]])).toEqualOption(Some(1));
     expect(match(None(), [[None().is, identity]])).toEqualOption(None());
+    expect(match(Some(1), [[isSome, identity]])).toEqualOption(Some(1));
+    expect(match(None(), [[isNone, identity]])).toEqualOption(None());
   });
 
   it("should work with Results", () => {
@@ -64,5 +67,12 @@ describe("Match.match", () => {
     expect(match(Err("foo"), [[Err("foo").is, identity]])).toEqualResult(
       Err("foo")
     );
+    expect(match(Ok(1), [[isOk, identity]])).toEqualResult(Ok(1));
+    expect(match(Err("foo"), [[isErr, identity]])).toEqualResult(Err("foo"));
+  });
+
+  it("should throw if no predicate matches the value", () => {
+    expect(() => match(1, [])).toThrow();
+    expect(() => match(1, [[(n) => n % 2 == 0, identity]])).toThrow();
   });
 });

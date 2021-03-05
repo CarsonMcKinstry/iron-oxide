@@ -117,4 +117,8 @@ describe("Option.Some", () => {
 
     expect(nestedSome.flatten()).toEqualOption(None());
   });
+
+  test("Option.toString", () => {
+    expect(some.toString()).toEqual("Some(1)");
+  });
 });
