@@ -55,5 +55,6 @@ export const isOption = <T>(value: any): value is Option<T> => {
     "zip",
     "expect",
     "is",
+    "flatten",
   ].every((prop) => value.hasOwnProperty(prop));
 };
