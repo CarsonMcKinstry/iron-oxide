@@ -25,9 +25,9 @@ export interface Option<T> {
   toString(): string;
 }
 
-function from<T>(value?: T): Option<T>;
-function from(value?: null): Option<never>;
-function from(value: any): Option<any> {
+export function Option<T>(value?: T): Option<T>;
+export function Option(value?: null): Option<never>;
+export function Option(value: any): Option<any> {
   if (value === undefined || value === null) {
     return None();
   }
@@ -35,28 +35,25 @@ function from(value: any): Option<any> {
   return Some(value);
 }
 
-export const Option = {
-  isOption<T>(value: any): value is Option<T> {
-    return [
-      "isSome",
-      "isNone",
-      "unwrap",
-      "unwrapOr",
-      "unwrapOrElse",
-      "map",
-      "mapOr",
-      "mapOrElse",
-      "okOr",
-      "okOrElse",
-      "and",
-      "andThen",
-      "or",
-      "orElse",
-      "filter",
-      "zip",
-      "expect",
-      "is",
-    ].every((prop) => value.hasOwnProperty(prop));
-  },
-  from,
+export const isOption = <T>(value: any): value is Option<T> => {
+  return [
+    "isSome",
+    "isNone",
+    "unwrap",
+    "unwrapOr",
+    "unwrapOrElse",
+    "map",
+    "mapOr",
+    "mapOrElse",
+    "okOr",
+    "okOrElse",
+    "and",
+    "andThen",
+    "or",
+    "orElse",
+    "filter",
+    "zip",
+    "expect",
+    "is",
+  ].every((prop) => value.hasOwnProperty(prop));
 };

@@ -92,3 +92,7 @@ export const Err = <E>(error: E): Err<E> => ({
     return `Err(${JSON.stringify(error)})`;
   },
 });
+
+export const isErr = <T, E>(result: Result<T, E>): result is Err<E> => {
+  return result.isErr();
+};

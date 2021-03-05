@@ -91,3 +91,7 @@ export const Ok = <T>(value: T): Ok<T> => ({
     return `Ok(${JSON.stringify(value)})`;
   },
 });
+
+export const isOk = <T, E>(result: Result<T, E>): result is Ok<T> => {
+  return result.isOk();
+};

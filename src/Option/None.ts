@@ -74,3 +74,7 @@ export const None = (): None => ({
     return "None()";
   },
 });
+
+export const isNone = <T>(value: Option<T>): value is None => {
+  return value.isNone();
+};

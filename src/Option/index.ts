@@ -1,3 +1,3 @@
-export { None } from "./None";
-export { Some } from "./Some";
-export { Option } from "./Option";
+export { None, isNone } from "./None";
+export { Some, isSome } from "./Some";
+export { Option, isOption } from "./Option";

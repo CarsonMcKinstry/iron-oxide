@@ -1,3 +1,3 @@
-export { Ok } from "./Ok";
-export { Err } from "./Err";
-export { Result } from "./Result";
+export { Ok, isOk } from "./Ok";
+export { Err, isErr } from "./Err";
+export { Result, isResult } from "./Result";

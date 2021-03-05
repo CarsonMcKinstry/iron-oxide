@@ -1,6 +1,6 @@
 import { isEqual } from "lodash";
 import { Ok } from "../Result";
-import { Option } from "./Option";
+import { Option, isOption } from "./Option";
 import { None } from "./None";
 
 export type Some<T> = Option<T>;
@@ -71,7 +71,7 @@ export const Some = <T>(value: T): Some<T> => ({
   },
 
   flatten() {
-    if (Option.isOption<T>(value)) {
+    if (isOption<T>(value)) {
       return value;
     }
 
@@ -95,15 +95,6 @@ export const Some = <T>(value: T): Some<T> => ({
   },
 });
 
-// export class _Some<T> extends Option<T> {
-//   constructor(private value: T) {
-//     super();
-//   }
-
-// }
-
-// export type Some<T> = _Some<T>;
-
-// export function Some<T>(value: T): Some<T> {
-//   return new _Some(value);
-// }
+export const isSome = <T>(value: Option<T>): value is Some<T> => {
+  return value.isSome();
+};

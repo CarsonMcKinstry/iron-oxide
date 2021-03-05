@@ -25,9 +25,9 @@ export interface Result<T, E> {
   toString(): string;
 }
 
-function from<T>(value: T): Result<T, never>;
-function from<T, E>(value: null, error: E): Result<never, E>;
-function from(value: any, error?: any): Result<any, any> {
+export function Result<T>(value: T): Result<T, never>;
+export function Result<T, E>(value: null, error: E): Result<never, E>;
+export function Result(value: any, error?: any): Result<any, any> {
   if (value === null && error) {
     return Err(error);
   }
@@ -35,29 +35,26 @@ function from(value: any, error?: any): Result<any, any> {
   return Ok(value);
 }
 
-export const Result = {
-  isResult<T, E>(value: any): value is Result<T, E> {
-    return [
-      "map",
-      "mapErr",
-      "mapOr",
-      "mapOrElse",
-      "isOk",
-      "isErr",
-      "ok",
-      "err",
-      "and",
-      "andThen",
-      "or",
-      "orElse",
-      "unwrap",
-      "unwrapErr",
-      "unwrapOr",
-      "unwrapOrElse",
-      "expect",
-      "expectErr",
-      "is",
-    ].every((prop) => value.hasOwnProperty(prop));
-  },
-  from,
+export const isResult = <T, E>(value: any): value is Result<T, E> => {
+  return [
+    "map",
+    "mapErr",
+    "mapOr",
+    "mapOrElse",
+    "isOk",
+    "isErr",
+    "ok",
+    "err",
+    "and",
+    "andThen",
+    "or",
+    "orElse",
+    "unwrap",
+    "unwrapErr",
+    "unwrapOr",
+    "unwrapOrElse",
+    "expect",
+    "expectErr",
+    "is",
+  ].every((prop) => value.hasOwnProperty(prop));
 };
