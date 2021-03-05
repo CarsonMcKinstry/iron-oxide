@@ -1,5 +1,20 @@
 {
   "name": "iron-oxide",
+  "author": {
+    "name": "Carson McKinstry",
+    "email": "carson.mckinstry@gmail.com",
+    "url": "https://github.com/carsonmckinstry"
+  },
+  "homepage": "https://github.com/carsonmckinstry/iron-oxide#readme",
+  "description": "Rust style exception handling in TypeScript",
+  "keywords": [
+    "rust",
+    "option",
+    "result",
+    "match",
+    "typescript",
+    "exception handling"
+  ],
   "version": "1.0.5",
   "main": "./lib",
   "license": "MIT",
