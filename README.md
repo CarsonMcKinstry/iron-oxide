@@ -2,6 +2,10 @@
 
 Rust style exception handling in TypeScript
 
+## Documentation
+
+Documentation is hosted as an [mdbook](https://github.com/rust-lang/mdBook) at [iron-oxide.js.org](https://iron-oxide.js.org).
+
 ## Option
 
 An `Option` represents success or the presence of a value. It comes in two variants:
