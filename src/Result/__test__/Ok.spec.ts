@@ -2,7 +2,6 @@ import { Some, None } from "../../Option";
 import { Ok } from "../Ok";
 import { Err } from "../Err";
 import { Result } from "../Result";
-import { result } from "lodash";
 
 describe("Result.Ok", () => {
   const ok: Result<number, string> = Ok(1);

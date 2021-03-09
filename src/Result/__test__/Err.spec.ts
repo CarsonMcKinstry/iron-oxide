@@ -61,7 +61,7 @@ describe("Result: Err", () => {
   });
 
   test("Result.unwrapOrElse", () => {
-    expect(err.unwrapOrElse((err) => 1)).toEqual(1);
+    expect(err.unwrapOrElse((_) => 1)).toEqual(1);
   });
 
   test("Result.mapErr", () => {

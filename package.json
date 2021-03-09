@@ -15,7 +15,7 @@
     "typescript",
     "exception handling"
   ],
-  "version": "1.1.1",
+  "version": "1.1.2",
   "main": "./lib",
   "license": "MIT",
   "dependencies": {
@@ -25,7 +25,7 @@
     "test": "jest",
     "build": "tsc",
     "prebuild": "rimraf ./lib",
-    "prepublish": "yarn test && yarn build"
+    "prepublish": "yarn test && yarn build && rm ./lib/setupJest*"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",

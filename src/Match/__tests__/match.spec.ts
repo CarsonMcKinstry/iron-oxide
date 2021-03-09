@@ -1,5 +1,5 @@
-import { Option, Some, None } from "../../Option";
-import { Result, Ok, Err } from "../../Result";
+import { Some, None } from "../../Option";
+import { Ok, Err } from "../../Result";
 import { match } from "../match";
 import { isSome, isNone, isErr, isOk } from "../utils";
 
