@@ -3,7 +3,30 @@ import isEqual from "lodash/isEqual";
 import { None } from "./None";
 import { Some } from "./Some";
 
-export class Option<T> {
+export interface Option<T> {
+  isSome(): boolean;
+  isNone(): boolean;
+  unwrap(): T;
+  unwrapOr(def: T): T;
+  unwrapOrElse(f: () => T): T;
+  map<U>(proj: (a: T) => U): Option<U>;
+  mapOr<U>(def: U, proj: (a: T) => U): U;
+  mapOrElse<U>(def: () => U, proj: (a: T) => U): U;
+  okOr<E>(err: E): Result<T, E>;
+  okOrElse<E>(err: () => E): Result<T, E>;
+  and<U>(optb: Option<U>): Option<U>;
+  andThen<U>(f: (a: T) => Option<U>): Option<U>;
+  or(optb: Option<T>): Option<T>;
+  orElse(f: () => Option<T>): Option<T>;
+  filter(predicate: (a: T) => boolean): Option<T>;
+  zip<U>(other: Option<U>): Option<[T, U]>;
+  expect(msg: string): T;
+  flatten(): Option<T>;
+  is(op: Option<T>): boolean;
+  toString(): string;
+}
+
+export class Option<T> implements Option<T> {
   private value?: T = undefined;
 
   constructor(value?: T) {
@@ -132,6 +155,22 @@ export class Option<T> {
     return None();
   }
 
+  flatten(this: Option<Option<T>>): Option<T> {
+    if (isOption(this.value)) {
+      if (this.isSome()) {
+        return this.value!;
+      }
+    }
+
+    if (this.isNone()) {
+      return this as None;
+    }
+
+    throw new Error(
+      "Tried to call Option.flatten on Option<T>, this only works on Option<Option<T>>"
+    );
+  }
+
   expect(msg: string): T {
     if (this.isSome()) {
       return this.value!;
@@ -164,60 +203,3 @@ export class Option<T> {
 export function isOption<T>(option: unknown): option is Option<T> {
   return option instanceof Option;
 }
-
-// export interface Option<T> {
-//   isSome(): boolean;
-//   isNone(): boolean;
-//   unwrap(): T;
-//   unwrapOr(def: T): T;
-//   unwrapOrElse(f: () => T): T;
-//   map<U>(proj: (a: T) => U): Option<U>;
-//   mapOr<U>(def: U, proj: (a: T) => U): U;
-//   mapOrElse<U>(def: () => U, proj: (a: T) => U): U;
-//   okOr<E>(err: E): Result<T, E>;
-//   okOrElse<E>(err: () => E): Result<T, E>;
-//   and<U>(optb: Option<U>): Option<U>;
-//   andThen<U>(f: (a: T) => Option<U>): Option<U>;
-//   or(optb: Option<T>): Option<T>;
-//   orElse(f: () => Option<T>): Option<T>;
-//   filter(predicate: (a: T) => boolean): Option<T>;
-//   zip<U>(other: Option<U>): Option<[T, U]>;
-//   expect(msg: string): T;
-//   flatten(): Option<T>;
-//   is(op: Option<T>): boolean;
-//   toString(): string;
-// }
-
-// export function Option<T>(value?: T): Option<T>;
-// export function Option(value?: null): Option<never>;
-// export function Option(value: any): Option<any> {
-//   if (value === undefined || value === null) {
-//     return None();
-//   }
-
-//   return Some(value);
-// }
-
-// export const isOption = <T>(value: any): value is Option<T> => {
-//   return [
-//     "isSome",
-//     "isNone",
-//     "unwrap",
-//     "unwrapOr",
-//     "unwrapOrElse",
-//     "map",
-//     "mapOr",
-//     "mapOrElse",
-//     "okOr",
-//     "okOrElse",
-//     "and",
-//     "andThen",
-//     "or",
-//     "orElse",
-//     "filter",
-//     "zip",
-//     "expect",
-//     "is",
-//     "flatten",
-//   ].every((prop) => value.hasOwnProperty(prop));
-// };

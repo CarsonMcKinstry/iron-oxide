@@ -96,9 +96,9 @@ describe("Option.None", () => {
       new Error("expected a value")
     );
   });
-  // test("Option.flatten", () => {
-  //   expect(none.flatten()).toEqualOption(None());
-  // });
+  test("Option.flatten", () => {
+    expect(none.flatten()).toEqualOption(None());
+  });
 
   test("Option.toString", () => {
     expect(none.toString()).toEqual("None()");
