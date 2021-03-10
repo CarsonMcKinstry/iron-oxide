@@ -2,7 +2,7 @@ import { isEqual } from "lodash";
 import { Some, None } from "../Option";
 import { Result } from "./Result";
 
-export type Ok<T> = Result<T, never>;
+export type Ok<T> = Result<T, any>;
 
 export const Ok = <T>(value: T): Ok<T> => ({
   isOk() {

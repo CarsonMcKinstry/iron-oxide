@@ -66,11 +66,12 @@
     "skipLibCheck": true,                     /* Skip type checking of declaration files. */
     "forceConsistentCasingInFileNames": true  /* Disallow inconsistently-cased references to the same file. */
   },
-  "include": [
-    "src/**/*.ts",
-    "setupJest.ts"
-  ],
+  // "include": [
+  //   "src/**/*.ts",
+  //   "setupJest.ts"
+  // ],
   "exclude": [
     "**/*.spec.ts",
+    "lib/**/*.ts"
   ]
 }

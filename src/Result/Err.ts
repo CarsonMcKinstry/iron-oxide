@@ -2,7 +2,7 @@ import { isEqual } from "lodash";
 import { Some, None } from "../Option";
 import { Result } from "./Result";
 
-export type Err<E> = Result<never, E>;
+export type Err<E> = Result<any, E>;
 
 export const Err = <E>(error: E): Err<E> => ({
   isOk() {

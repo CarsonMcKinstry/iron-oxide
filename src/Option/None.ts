@@ -1,7 +1,7 @@
 import { Err } from "../Result";
 import { Option } from "./Option";
 
-export type None = Option<never>;
+export type None = Option<any>;
 
 export const None = (): None => ({
   isSome() {
@@ -10,7 +10,7 @@ export const None = (): None => ({
   isNone() {
     return true;
   },
-  unwrap(): never {
+  unwrap(): any {
     throw new Error("Called 'Option.unwrap' on a 'None' value");
   },
   unwrapOr<T>(def: T) {
@@ -58,7 +58,7 @@ export const None = (): None => ({
     return None();
   },
 
-  expect(msg: string): never {
+  expect(msg: string): any {
     throw new Error(msg);
   },
 

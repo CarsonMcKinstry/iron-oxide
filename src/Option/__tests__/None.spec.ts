@@ -52,7 +52,7 @@ describe("Option.None", () => {
   });
 
   test("Option.andThen", () => {
-    expect(none.andThen((value) => Some(2))).toEqualOption(None());
+    expect(none.andThen((_) => Some(2))).toEqualOption(None());
   });
 
   test("Option.or", () => {
