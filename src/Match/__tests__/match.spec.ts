@@ -56,17 +56,17 @@ describe("Match.match", () => {
   });
 
   it("should work with Options", () => {
-    expect(match(Some(1), [[Some(1), identity]])).toEqual(Some(1));
-    expect(match(None(), [[None(), identity]])).toEqual(None());
-    expect(match(Some(1), [[isSome, identity]])).toEqual(Some(1));
-    expect(match(None(), [[isNone, identity]])).toEqual(None());
+    expect(match(Some(1), [[Some(1), identity]])).toEqual(1);
+    expect(match(None(), [[None(), identity]])).toEqual(undefined);
+    expect(match(Some(1), [[isSome, identity]])).toEqual(1);
+    expect(match(None(), [[isNone, identity]])).toEqual(undefined);
   });
 
   it("should work with Results", () => {
-    expect(match(Ok(1), [[Ok(1), identity]])).toEqual(Ok(1));
-    expect(match(Err("foo"), [[Err("foo"), identity]])).toEqual(Err("foo"));
-    expect(match(Ok(1), [[isOk, identity]])).toEqual(Ok(1));
-    expect(match(Err("foo"), [[isErr, identity]])).toEqual(Err("foo"));
+    expect(match(Ok(1), [[Ok(1), identity]])).toEqual(1);
+    expect(match(Err("foo"), [[Err("foo"), identity]])).toEqual("foo");
+    expect(match(Ok(1), [[isOk, identity]])).toEqual(1);
+    expect(match(Err("foo"), [[isErr, identity]])).toEqual("foo");
   });
 
   it("should throw if no predicate matches the value", () => {
