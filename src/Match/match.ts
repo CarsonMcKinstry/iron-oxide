@@ -1,4 +1,5 @@
-import { isEqual, isFunction } from "lodash";
+import isEqual from "lodash.isequal";
+import isFunction from "lodash.isfunction";
 
 type MatchStatement<T, R = T> = [T | ((value: T) => boolean), (value: T) => R];
 
