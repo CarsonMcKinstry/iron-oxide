@@ -1,4 +1,4 @@
-import { Option } from "../Option";
+import { None, Option, Some } from "../Option";
 import { Err } from "./Err";
 import { Ok } from "./Ok";
 
@@ -21,40 +21,171 @@ export interface Result<T, E> {
   unwrapOrElse(op: (err: E) => T): T;
   expect(msg: string): T;
   expectErr(msg: string): E;
-  is(res: Result<T, E>): boolean;
   toString(): string;
 }
 
-export function Result<T>(value: T): Result<T, never>;
-export function Result<T, E>(value: null, error: E): Result<never, E>;
-export function Result(value: any, error?: any): Result<any, any> {
-  if (value === null && error) {
-    return Err(error);
+export class Result<T, E> implements Result<T, E> {
+  private value?: T = undefined;
+  private error?: E = undefined;
+
+  constructor(value?: T, error?: E) {
+    if (value != undefined) {
+      this.value = value;
+    }
+
+    if (error != undefined) {
+      this.error = error;
+    }
   }
 
-  return Ok(value);
+  isOk(): this is Ok<T> {
+    return this.value != undefined;
+  }
+
+  isErr(): this is Err<E> {
+    return this.error != undefined;
+  }
+
+  ok(): Option<T> {
+    if (this.isOk()) {
+      return Some(this.value!);
+    }
+
+    return None();
+  }
+
+  err(): Option<E> {
+    if (this.isErr()) {
+      return Some(this.error!);
+    }
+
+    return None();
+  }
+
+  unwrap(): T {
+    if (this.isOk()) {
+      return this.value!;
+    }
+
+    throw new Error(
+      `Called 'Result.unwrap' on an 'Err' with error: ${(this as Err<E>)
+        .error!}`
+    );
+  }
+
+  unwrapErr(): E {
+    if (this.isErr()) {
+      return this.error!;
+    }
+
+    throw new Error(
+      `Called 'Result.unwrapErr' on an 'Ok' with value: ${(this as Ok<T>)
+        .value!}`
+    );
+  }
+
+  unwrapOr(optb: T): T {
+    if (this.isOk()) {
+      return this.value!;
+    }
+
+    return optb;
+  }
+
+  unwrapOrElse(op: (err: E) => T): T {
+    if (this.isOk()) {
+      return this.value!;
+    }
+
+    return op((this as Err<E>).error!);
+  }
+
+  map<U>(proj: (a: T) => U): Result<U, E> {
+    if (this.isOk()) {
+      return Ok(proj(this.value!));
+    }
+
+    return this;
+  }
+
+  mapErr<F>(proj: (err: E) => F): Result<T, F> {
+    if (this.isErr()) {
+      return Err(proj(this.error!));
+    }
+
+    return this;
+  }
+
+  mapOr<U>(def: U, proj: (a: T) => U): U {
+    if (this.isOk()) {
+      return proj(this.value!);
+    }
+
+    return def;
+  }
+  mapOrElse<U>(def: () => U, proj: (a: T) => U): U {
+    if (this.isOk()) {
+      return proj(this.value!);
+    }
+
+    return def();
+  }
+
+  and<U>(res: Result<U, E>): Result<U, E> {
+    if (this.isOk()) {
+      return res;
+    }
+
+    return this;
+  }
+
+  andThen<U>(op: (a: T) => Result<U, E>): Result<U, E> {
+    if (this.isOk()) {
+      return op(this.value!);
+    }
+
+    return this;
+  }
+
+  or(res: Result<T, E>): Result<T, E> {
+    if (this.isErr()) {
+      return res;
+    }
+
+    return this;
+  }
+  orElse<F>(op: (a: E) => Result<T, F>): Result<T, F> {
+    if (this.isErr()) {
+      return op(this.error!);
+    }
+
+    return this;
+  }
+
+  expect(msg: string): T {
+    if (this.isOk()) {
+      return this.value!;
+    }
+
+    throw new Error(msg);
+  }
+  expectErr(msg: string): E {
+    if (this.isErr()) {
+      return this.error!;
+    }
+
+    throw new Error(msg);
+  }
+
+  toString(): string {
+    if (this.isOk()) {
+      return `Ok(${JSON.stringify(this.value)})`;
+    }
+
+    return `Err(${JSON.stringify((this as Err<E>).error)})`;
+  }
 }
 
-export const isResult = <T, E>(value: any): value is Result<T, E> => {
-  return [
-    "map",
-    "mapErr",
-    "mapOr",
-    "mapOrElse",
-    "isOk",
-    "isErr",
-    "ok",
-    "err",
-    "and",
-    "andThen",
-    "or",
-    "orElse",
-    "unwrap",
-    "unwrapErr",
-    "unwrapOr",
-    "unwrapOrElse",
-    "expect",
-    "expectErr",
-    "is",
-  ].every((prop) => value.hasOwnProperty(prop));
-};
+export function isResult<T, E>(result: unknown): result is Result<T, E> {
+  return result instanceof Result;
+}

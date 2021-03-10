@@ -1,5 +1,4 @@
 import { Err, Ok, Result } from "../Result";
-import isEqual from "lodash/isEqual";
 import { None } from "./None";
 import { Some } from "./Some";
 
@@ -22,7 +21,6 @@ export interface Option<T> {
   zip<U>(other: Option<U>): Option<[T, U]>;
   expect(msg: string): T;
   flatten(): Option<T>;
-  is(op: Option<T>): boolean;
   toString(): string;
 }
 
@@ -30,7 +28,9 @@ export class Option<T> implements Option<T> {
   private value?: T = undefined;
 
   constructor(value?: T) {
-    this.value = value;
+    if (value != undefined) {
+      this.value = value;
+    }
   }
 
   // is Some if vale is not undefined or null
@@ -91,7 +91,7 @@ export class Option<T> implements Option<T> {
     return this;
   }
 
-  mapOr<U>(def: U, proj: (a: T) => U): T | U {
+  mapOr<U>(def: U, proj: (a: T) => U): U {
     if (this.isSome()) {
       return proj(this.value!);
     }
@@ -99,7 +99,7 @@ export class Option<T> implements Option<T> {
     return def;
   }
 
-  mapOrElse<U>(def: () => U, proj: (a: T) => U): T | U {
+  mapOrElse<U>(def: () => U, proj: (a: T) => U): U {
     if (this.isSome()) {
       return proj(this.value!);
     }
@@ -177,18 +177,6 @@ export class Option<T> implements Option<T> {
     }
 
     throw new Error(msg);
-  }
-
-  is(op: Option<T>): boolean {
-    if (this.isSome() && op.isSome() && isEqual(this.value, op.unwrap())) {
-      return true;
-    }
-
-    if (this.isNone() && op.isNone()) {
-      return true;
-    }
-
-    return false;
   }
 
   toString() {

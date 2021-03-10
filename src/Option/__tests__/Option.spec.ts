@@ -4,8 +4,8 @@ import { None } from "../None";
 
 describe("Option", () => {
   test("Option", () => {
-    expect(new Option<number>(1)).toEqualOption(Some(1));
-    expect(new Option(null)).toEqualOption(None());
-    expect(new Option()).toEqualOption(None());
+    expect(new Option<number>(1)).toEqual(Some(1));
+    expect(new Option(null)).toEqual(None());
+    expect(new Option()).toEqual(None());
   });
 });

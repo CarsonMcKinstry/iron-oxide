@@ -8,7 +8,7 @@ export const match = <T, R = T>(
 ) => {
   for (const [predicate, func] of statements) {
     if (isFunction(predicate)) {
-      if (predicate(value)) {
+      if (predicate.bind(predicate)(value)) {
         return func(value);
       }
     }
