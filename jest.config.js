@@ -3,5 +3,5 @@ module.exports = {
   testEnvironment: "node",
   collectCoverageFrom: ["src/**/*.ts"],
   coveragePathIgnorePatterns: ["index.ts"],
-  setupFilesAfterEnv: ["<rootDir>/setupJest.ts"],
+  setupFilesAfterEnv: ["<rootDir>/setupJest.js"],
 };
