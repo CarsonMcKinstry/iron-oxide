@@ -106,17 +106,17 @@ describe("Option.Some", () => {
     expect(some.expect("")).toEqual(1);
   });
 
-  test("Option.flatten", () => {
-    expect(() => some.flatten()).toThrow();
+  // test("Option.flatten", () => {
+  //   expect(() => some.flatten()).toThrow();
 
-    let nestedSome: Option<Option<number>> = Some(some);
+  //   let nestedSome: Option<Option<number>> = Some(some);
 
-    expect(nestedSome.flatten()).toEqualOption(some);
+  //   expect(nestedSome.flatten()).toEqualOption(some);
 
-    nestedSome = Some(None());
+  //   nestedSome = Some(None());
 
-    expect(nestedSome.flatten()).toEqualOption(None());
-  });
+  //   expect(nestedSome.flatten()).toEqualOption(None());
+  // });
 
   test("Option.toString", () => {
     expect(some.toString()).toEqual("Some(1)");
