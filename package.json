@@ -26,7 +26,8 @@
     "test": "jest",
     "build": "tsc",
     "prebuild": "rimraf ./lib",
-    "prepublish": "yarn test && yarn build"
+    "prepublish": "yarn test && yarn build",
+    "build:docs": "mk"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
