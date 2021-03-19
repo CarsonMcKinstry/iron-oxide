@@ -27,7 +27,8 @@
     "build": "tsc",
     "prebuild": "rimraf ./lib",
     "prepublish": "yarn test && yarn build",
-    "build:docs": "mv docs/CNAME .; mdbook build -d docs; mv CNAME docs"
+    "build:docs": "mv docs/CNAME .; mdbook build -d docs; mv CNAME docs",
+    "docs": "mdbook serve"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
