@@ -1,7 +1,7 @@
 import { Some, None } from "../../Option";
 import { Ok, Err } from "../../Result";
 import { match } from "../match";
-import { isSome, isNone, isErr, isOk } from "../utils";
+import { isSome, isNone, isErr, isOk, fallthrough } from "../utils";
 
 const identity = <T>(i: T): T => i;
 
@@ -12,6 +12,9 @@ describe("Match.match", () => {
     expect(match("foo", [["foo", identity]])).toEqual("foo");
   });
 
+  it("should work with a fallthrough ", () => {
+    expect(match(2, [[fallthrough, identity]])).toEqual(2);
+  });
   it("should accept objects as predicates", () => {
     expect(match({ foo: 1 }, [[{ foo: 1 }, identity]])).toEqual({ foo: 1 });
     expect(
