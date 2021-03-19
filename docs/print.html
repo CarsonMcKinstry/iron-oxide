@@ -721,7 +721,54 @@ div(2, 0)                                         // =&gt; Ok(1)
 
 </code></pre>
 <h1 id="using-match"><a class="header" href="#using-match">Using match</a></h1>
-<p><code>iron-oxide</code> offers a rudimentary way to mimic <code>rust</code>'s <code>match</code> keyword.  </p>
+<p><code>iron-oxide</code> offers a rudimentary way to mimic <code>rust</code>'s <code>match</code> keyword. In <code>rust</code> the <code>match</code> keyword is used similarly to the way a switch statement is used in JavaScript and TypeScript, except for one key difference: <code>match</code> works with more than just primitive values.</p>
+<h2 id="api"><a class="header" href="#api">API</a></h2>
+<p><code>match</code> takes two arguments</p>
+<ul>
+<li>The value, of type T, we are matching</li>
+<li>A list of <code>MatchStatement</code>s, which are generic over <code>T</code> the type of the value, and <code>R</code> the return value of the <code>match</code></li>
+</ul>
+<p>Each match statement is a tuple of two things</p>
+<ul>
+<li>The value, of type T, or a predicate function which takes the value and returns a <code>boolean</code></li>
+<li>The function to call if the predicate matches. This receives the matched value</li>
+</ul>
+<p>If no statement is matched, and <code>matchUtils.fallback</code> is not given, <code>match</code> will throw an error.</p>
+<h2 id="example-35"><a class="header" href="#example-35">Example</a></h2>
+<p>With a primitive value</p>
+<pre><code class="language-typescript">import { match } from 'iron-oxide';
+
+function getParity(n: number) {
+    return match(n, [
+        [0, () =&gt; 'neitherEvenNorOdd'],
+        [x =&gt; x % 2 === 0, () =&gt; 'even'],
+        [x =&gt; x % 2 !== 0. () =&gt; 'odd']
+    ]);
+}
+</code></pre>
+<p>With an <code>Option</code> (here, find returns <code>Option&lt;Person&gt;</code>)</p>
+<pre><code class="language-typescript">import { match } from 'iron-oxide`;
+
+function getPerson(name: string) {
+    const maybePerson = find(people, person =&gt; person.name === name);
+
+    return match(maybePerson, [
+        [isNone, () =&gt; console.log(&quot;Couldn't find a person with the name:&quot;, name)],
+        [isSome, (person) =&gt; console.log(&quot;Found the person:&quot;, person)]
+    ]);
+}
+</code></pre>
+<h2 id="matchutils"><a class="header" href="#matchutils">matchUtils</a></h2>
+<p><code>iron-oxide</code> also exports a set of utilities that can be used with a <code>matchStatement</code>, these are</p>
+<ul>
+<li><code>isOption</code>, matches any <code>Option</code></li>
+<li><code>isSome</code>, matches any <code>Some</code></li>
+<li><code>isNone</code>, matches any <code>None</code></li>
+<li><code>isResult</code>, matches any <code>Result</code></li>
+<li><code>isOk</code>, matches any <code>Ok</code></li>
+<li><code>isErr</code>, matches any <code>Err</code></li>
+<li><code>fallthrough</code>, which matches any and all values</li>
+</ul>
 
                     </main>
 
