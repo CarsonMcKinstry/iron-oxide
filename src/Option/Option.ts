@@ -17,6 +17,7 @@ export interface Option<T> {
   andThen<U>(f: (a: T) => Option<U>): Option<U>;
   or(optb: Option<T>): Option<T>;
   orElse(f: () => Option<T>): Option<T>;
+  filter<U extends T>(predicate: (a: T) => a is U): Option<U>;
   filter(predicate: (a: T) => boolean): Option<T>;
   zip<U>(other: Option<U>): Option<[T, U]>;
   expect(msg: string): T;
