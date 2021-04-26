@@ -139,9 +139,9 @@ export class Option<T> implements Option<T> {
     return this;
   }
 
-  filter(predicate: (a: T) => boolean): Option<T> {
+  filter<U extends T>(predicate: (a: T) => a is U): Option<U> {
     if (this.isSome() && predicate(this.value!)) {
-      return this;
+      return (this as unknown) as Option<U>;
     }
 
     return None();

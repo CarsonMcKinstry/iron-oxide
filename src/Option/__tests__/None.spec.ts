@@ -78,9 +78,28 @@ describe("Option.None", () => {
     expect(none.okOrElse(() => error)).toEqual(Err(error));
   });
 
-  test("Option.filter", () => {
-    expect(none.filter((n) => n % 2 === 0)).toEqual(None());
-    expect(none.filter((n) => n % 2 !== 0)).toEqual(None());
+  describe("Option.filter", () => {
+    test("Without typeGuard", () => {
+      expect(none.filter((n) => n % 2 === 0)).toEqual(None());
+      expect(none.filter((n) => n % 2 !== 0)).toEqual(None());
+    });
+    test("With typeguard", () => {
+      let s: Option<string | number> = None();
+
+      function isNumber(n: unknown): n is number {
+        return typeof n === "number";
+      }
+
+      function isString(n: unknown): n is string {
+        return typeof n === "string";
+      }
+
+      const s_number = s.filter(isNumber);
+      const s_string = s.filter(isString);
+
+      expect(s_number).toEqual(None());
+      expect(s_string).toEqual(None());
+    });
   });
 
   test("Option.zip", () => {
