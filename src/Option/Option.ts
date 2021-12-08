@@ -2,6 +2,8 @@ import { Err, Ok, Result } from "../Result";
 import { None } from "./None";
 import { Some } from "./Some";
 
+const valueSymbol = Symbol("value");
+
 export interface Option<T> {
   isSome(): boolean;
   isNone(): boolean;
@@ -26,27 +28,27 @@ export interface Option<T> {
 }
 
 export class Option<T> implements Option<T> {
-  private value?: T = undefined;
+  private [valueSymbol]?: T = undefined;
 
   constructor(value?: T) {
     if (value != undefined) {
-      this.value = value;
+      this[valueSymbol] = value;
     }
   }
 
   // is Some if vale is not undefined or null
   isSome(): this is Some<T> {
-    return this.value != undefined;
+    return this[valueSymbol] != undefined;
   }
 
   // is None if value is undefined or null
   isNone(): this is None {
-    return this.value == undefined;
+    return this[valueSymbol] == undefined;
   }
 
   okOr<E>(error: E): Result<T, E> {
     if (this.isSome()) {
-      return Ok(this.value!);
+      return Ok(this[valueSymbol]!);
     }
 
     return Err(error);
@@ -54,7 +56,7 @@ export class Option<T> implements Option<T> {
 
   okOrElse<E>(error: () => E): Result<T, E> {
     if (this.isSome()) {
-      return Ok(this.value!);
+      return Ok(this[valueSymbol]!);
     }
 
     return Err(error());
@@ -62,7 +64,7 @@ export class Option<T> implements Option<T> {
 
   unwrap(): T {
     if (this.isSome()) {
-      return this.value!;
+      return this[valueSymbol]!;
     }
 
     throw new Error("Called 'Option.unwrap' on a 'None' value");
@@ -70,7 +72,7 @@ export class Option<T> implements Option<T> {
 
   unwrapOr<U>(def: U): T | U {
     if (this.isSome()) {
-      return this.value!;
+      return this[valueSymbol]!;
     }
 
     return def;
@@ -78,7 +80,7 @@ export class Option<T> implements Option<T> {
 
   unwrapOrElse<U>(def: () => U): T | U {
     if (this.isSome()) {
-      return this.value!;
+      return this[valueSymbol]!;
     }
 
     return def();
@@ -86,7 +88,7 @@ export class Option<T> implements Option<T> {
 
   map<U>(proj: (a: T) => U): Option<U> {
     if (this.isSome()) {
-      return Some(proj(this.value!));
+      return Some(proj(this[valueSymbol]!));
     }
 
     return this;
@@ -94,7 +96,7 @@ export class Option<T> implements Option<T> {
 
   mapOr<U>(def: U, proj: (a: T) => U): U {
     if (this.isSome()) {
-      return proj(this.value!);
+      return proj(this[valueSymbol]!);
     }
 
     return def;
@@ -102,7 +104,7 @@ export class Option<T> implements Option<T> {
 
   mapOrElse<U>(def: () => U, proj: (a: T) => U): U {
     if (this.isSome()) {
-      return proj(this.value!);
+      return proj(this[valueSymbol]!);
     }
 
     return def();
@@ -118,7 +120,7 @@ export class Option<T> implements Option<T> {
 
   andThen<U>(optB: (a: T) => Option<U>): Option<U> {
     if (this.isSome()) {
-      return optB(this.value!);
+      return optB(this[valueSymbol]!);
     }
 
     return this;
@@ -141,8 +143,8 @@ export class Option<T> implements Option<T> {
   }
 
   filter<U extends T>(predicate: (a: T) => a is U): Option<U> {
-    if (this.isSome() && predicate(this.value!)) {
-      return (this as unknown) as Option<U>;
+    if (this.isSome() && predicate(this[valueSymbol]!)) {
+      return this as unknown as Option<U>;
     }
 
     return None();
@@ -150,16 +152,16 @@ export class Option<T> implements Option<T> {
 
   zip<U>(other: Option<U>): Option<[T, U]> {
     if (this.isSome() && other.isSome()) {
-      return Some([this.value!, other.unwrap()]);
+      return Some([this[valueSymbol]!, other.unwrap()]);
     }
 
     return None();
   }
 
   flatten(this: Option<Option<T>>): Option<T> {
-    if (isOption(this.value)) {
+    if (isOption(this[valueSymbol])) {
       if (this.isSome()) {
-        return this.value!;
+        return this[valueSymbol]!;
       }
     }
 
@@ -174,7 +176,7 @@ export class Option<T> implements Option<T> {
 
   expect(msg: string): T {
     if (this.isSome()) {
-      return this.value!;
+      return this[valueSymbol]!;
     }
 
     throw new Error(msg);
@@ -182,7 +184,7 @@ export class Option<T> implements Option<T> {
 
   toString() {
     if (this.isSome()) {
-      return `Some(${JSON.stringify(this.value!)})`;
+      return `Some(${JSON.stringify(this[valueSymbol]!)})`;
     }
 
     return "None()";

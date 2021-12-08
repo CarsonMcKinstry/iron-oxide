@@ -18,7 +18,7 @@ describe("Result.Ok", () => {
   });
 
   test("Result.err", () => {
-    expect(ok.err()).toEqual(None());
+    expect(ok.err()).toStrictEqual(None());
   });
 
   test("Result.map", () => {

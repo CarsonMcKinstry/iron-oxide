@@ -27,7 +27,7 @@ describe("Option.None", () => {
   });
 
   test("Option.map", () => {
-    expect(none.map((n) => n + 1)).toEqual(None());
+    expect(none.map((n) => n + 1)).toStrictEqual(None());
   });
 
   test("Option.mapOr", () => {
@@ -44,11 +44,11 @@ describe("Option.None", () => {
   });
 
   test("Option.and", () => {
-    expect(none.and(Some(2))).toEqual(None());
+    expect(none.and(Some(2))).toStrictEqual(None());
   });
 
   test("Option.andThen", () => {
-    expect(none.andThen((_) => Some(2))).toEqual(None());
+    expect(none.andThen((_) => Some(2))).toStrictEqual(None());
   });
 
   test("Option.or", () => {
@@ -65,7 +65,7 @@ describe("Option.None", () => {
         .map((n) => n + 1)
         .map((n) => n + 1)
         .map((n) => n + 1)
-    ).toEqual(None());
+    ).toStrictEqual(None());
   });
 
   test("Option.okOr", () => {
@@ -80,8 +80,8 @@ describe("Option.None", () => {
 
   describe("Option.filter", () => {
     test("Without typeGuard", () => {
-      expect(none.filter((n) => n % 2 === 0)).toEqual(None());
-      expect(none.filter((n) => n % 2 !== 0)).toEqual(None());
+      expect(none.filter((n) => n % 2 === 0)).toStrictEqual(None());
+      expect(none.filter((n) => n % 2 !== 0)).toStrictEqual(None());
     });
     test("With typeguard", () => {
       let s: Option<string | number> = None();
@@ -97,13 +97,13 @@ describe("Option.None", () => {
       const s_number = s.filter(isNumber);
       const s_string = s.filter(isString);
 
-      expect(s_number).toEqual(None());
-      expect(s_string).toEqual(None());
+      expect(s_number).toStrictEqual(None());
+      expect(s_string).toStrictEqual(None());
     });
   });
 
   test("Option.zip", () => {
-    expect(none.zip(Some(2))).toEqual(None());
+    expect(none.zip(Some(2))).toStrictEqual(None());
   });
 
   test("Option.expect", () => {
@@ -112,7 +112,7 @@ describe("Option.None", () => {
     );
   });
   test("Option.flatten", () => {
-    expect(none.flatten()).toEqual(None());
+    expect(none.flatten()).toStrictEqual(None());
   });
 
   test("Option.toString", () => {

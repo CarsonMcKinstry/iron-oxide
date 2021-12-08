@@ -79,7 +79,7 @@ describe("Option.Some", () => {
 
   describe("Option.filter", () => {
     test("Without typeGuard", () => {
-      expect(some.filter((n) => n % 2 === 0)).toEqual(None());
+      expect(some.filter((n) => n % 2 === 0)).toStrictEqual(None());
       expect(some.filter((n) => n % 2 !== 0)).toEqual(Some(1));
     });
     test("With typeguard", () => {
@@ -96,14 +96,14 @@ describe("Option.Some", () => {
       const s_number = s.filter(isNumber);
       const s_string = s.filter(isString);
 
-      expect(s_number).toEqual(None());
+      expect(s_number).toStrictEqual(None());
       expect(s_string).toEqual(Some("foo"));
     });
   });
 
   test("Option.zip", () => {
     expect(some.zip(Some(2))).toEqual(Some([1, 2]));
-    expect(some.zip(None())).toEqual(None());
+    expect(some.zip(None())).toStrictEqual(None());
   });
 
   test("Option.expect", () => {
@@ -119,7 +119,7 @@ describe("Option.Some", () => {
 
     nestedSome = Some(None());
 
-    expect(nestedSome.flatten()).toEqual(None());
+    expect(nestedSome.flatten()).toStrictEqual(None());
   });
 
   test("Option.toString", () => {

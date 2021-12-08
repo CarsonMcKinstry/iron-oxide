@@ -60,9 +60,9 @@ describe("Match.match", () => {
 
   it("should work with Options", () => {
     expect(match(Some(1), [[Some(1), identity]])).toEqual(Some(1));
-    expect(match(None(), [[None(), identity]])).toEqual(None());
+    expect(match(None(), [[None(), identity]])).toStrictEqual(None());
     expect(match(Some(1), [[isSome, identity]])).toEqual(Some(1));
-    expect(match(None(), [[isNone, identity]])).toEqual(None());
+    expect(match(None(), [[isNone, identity]])).toStrictEqual(None());
   });
 
   it("should work with Results", () => {
